@@ -2,6 +2,7 @@ package com.server.lifestyle.controller;
 
 import com.server.lifestyle.domain.PaymentMethod;
 import com.server.lifestyle.model.*;
+import com.server.lifestyle.repository.PaymentOrderRepository;
 import com.server.lifestyle.response.PaymentLinkResponse;
 import com.server.lifestyle.service.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ public class OrderController {
     private final CartService cartService;
     private final SellerService sellerService;
     private final SellerReportService sellerReportService;
+    private final PaymentService paymentService;
+    private final PaymentOrderRepository paymentOrderRepository;
 
     @PostMapping("/create")
     public ResponseEntity<PaymentLinkResponse> createOrder(
@@ -34,10 +37,14 @@ public class OrderController {
 
         Set<Order> orders = orderService.createOrder(user, shippingAddress, cart);
 
-//        PaymentOrder paymentOrder =
-
+        PaymentOrder paymentOrder = paymentService.createPaymentOrder(user, orders);
         PaymentLinkResponse res = new PaymentLinkResponse();
 
+        String paymentUrl = paymentService.createStripePaymentLink(
+                user,
+                paymentOrder.getAmount(),
+                paymentOrder.getId());
+        res.setPayment_link_id(paymentUrl);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
 

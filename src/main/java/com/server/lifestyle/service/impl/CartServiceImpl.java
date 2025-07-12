@@ -47,8 +47,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart findUserCart(User user) {
         Cart cart = cartRepository.findByUserId(user.getId());
-        double totalPrice = 0;
-        double totalDiscountedPrice = 0;
+        double totalPrice = 0L;
+        double totalDiscountedPrice = 0L;
         int totalItem = 0;
 
         for (CartItem cartItems : cart.getCartItems()) {
@@ -57,11 +57,11 @@ public class CartServiceImpl implements CartService {
             totalItem += cartItems.getQuantity();
         }
 
-        cart.setTotalMrpPrice(totalPrice);
+        cart.setTotalMrPrice(totalPrice);
         cart.setTotalSellingPrice(totalDiscountedPrice);
         cart.setDiscount(calculateDiscountPercentage(totalPrice, totalDiscountedPrice));
         cart.setTotalItem(totalItem);
-
+//        cart.setUser(cart.getUser());
         return cart;
     }
 

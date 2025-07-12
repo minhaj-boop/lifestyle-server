@@ -41,7 +41,7 @@ public class Order {
 
     private double totalSellingPrice;
 
-    private Integer discount;
+    private int discount;
 
     private OrderStatus orderStatus;
 

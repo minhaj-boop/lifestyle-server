@@ -22,7 +22,7 @@ public class PaymentOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    private Long amount;
+    private double amount;
 
     private PaymentOrderStatus status = PaymentOrderStatus.PENDING;
 

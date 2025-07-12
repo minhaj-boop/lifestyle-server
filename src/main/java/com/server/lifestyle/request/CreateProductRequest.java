@@ -7,8 +7,8 @@ import java.util.List;
 public class CreateProductRequest {
     private String title;
     private String description;
-    private double mrPrice;
-    private double sellingPrice;
+    private Long mrPrice;
+    private Long sellingPrice;
     private String color;
     private List<String> images;
     private String category;

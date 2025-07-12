@@ -20,13 +20,13 @@ public class Coupon {
 
     private String code;
 
-    private double discountPercentage;
+    private int discountPercentage;
 
     private LocalDate validityStartDate;
 
     private LocalDate validityEndDate;
 
-    private double minimumOrderValue;
+    private Long minimumOrderValue;
 
     private boolean isActive;
 

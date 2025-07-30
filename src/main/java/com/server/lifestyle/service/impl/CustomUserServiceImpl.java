@@ -39,7 +39,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
                 return buildUserDetails(user.getEmail(), user.getPassword(), user.getRole());
             }
         }
-        throw new UsernameNotFoundException("User or Seller found with email - " + username);
+        throw new UsernameNotFoundException("User or Seller not found with email - " + username);
     }
 
     private UserDetails buildUserDetails(String email, String password, USER_ROLE role) {

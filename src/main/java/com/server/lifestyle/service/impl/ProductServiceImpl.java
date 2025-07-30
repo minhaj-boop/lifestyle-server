@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
             List<Predicate> predicates = new ArrayList<>();
             if (category != null) {
                 Join<Product, Category> categoryJoin = root.join("category");
-                predicates.add(criteriaBuilder.equal(categoryJoin.get("category"), category));
+                predicates.add(criteriaBuilder.equal(categoryJoin.get("categoryId"), category));
             }
             if(colors != null && !colors.isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("color"), colors));

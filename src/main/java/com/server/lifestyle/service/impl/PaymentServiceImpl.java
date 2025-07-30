@@ -12,6 +12,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -23,6 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentOrderRepository paymentOrderRepository;
     private final OrderRepository orderRepository;
 
+    //store the api key in the properties file.
     String stripeApiKey = "stripeApiKey";
     String stripeApiSecret = "stripeApiSecret";
 

@@ -35,7 +35,7 @@ public class AuthController {
         return ResponseEntity.ok(authResponse);
     }
 
-    @PostMapping("/sent/login-signup-otp")
+    @PostMapping("/send/login-signup-otp")
     public ResponseEntity<ApiResponse> sendOtpHandler(@RequestBody LoginOtpRequest req) throws Exception {
 
         authService.sendLoginOtp(req.getEmail(), req.getRole());
@@ -47,7 +47,7 @@ public class AuthController {
         return ResponseEntity.ok(res);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/sign-in")
     public ResponseEntity<AuthResponse> loginHandler(@RequestBody LoginRequest req) throws Exception {
 
        AuthResponse  res = authService.signin(req);

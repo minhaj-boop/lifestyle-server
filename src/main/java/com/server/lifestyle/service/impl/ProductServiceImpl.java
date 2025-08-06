@@ -7,6 +7,7 @@ import com.server.lifestyle.model.Seller;
 import com.server.lifestyle.repository.CategoryRepository;
 import com.server.lifestyle.repository.ProductRepository;
 import com.server.lifestyle.request.CreateProductRequest;
+import com.server.lifestyle.request.UpdateProductRequest;
 import com.server.lifestyle.service.ProductService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
@@ -97,10 +98,49 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) throws ProductException {
-        findProductById(productId);
-        product.setId(productId);
-        return productRepository.save(product);
+    public Product updateProduct(Long productId, UpdateProductRequest req, Seller seller) throws ProductException {
+        Product existingProduct = findProductById(productId);
+
+        if(!existingProduct.getSeller().getId().equals(seller.getId())) {
+            throw new ProductException("Unauthorized to update this product.");
+        }
+
+        // Update the fields
+        if(req.getTitle() != null) {
+            existingProduct.setTitle(req.getTitle());
+        }
+        if(req.getDescription() != null) {
+            existingProduct.setDescription(req.getDescription());
+        }
+        if (req.getColor() != null) {
+            existingProduct.setColor(req.getColor());
+        }
+        if(req.getImages() != null) {
+            existingProduct.setImages(req.getImages());
+        }
+        if(req.getSizes() != null) {
+           existingProduct.setSizes(req.getSizes());
+        }
+        if (req.getStock() != null) {
+            existingProduct.setStock(req.getStock());
+        }
+
+        existingProduct.setMrPrice(req.getMrPrice());
+        existingProduct.setSellingPrice(req.getSellingPrice());
+
+        int discount = calculateDiscountPercentage(req.getMrPrice(), req.getSellingPrice());
+        existingProduct.setDiscountPercent(discount);
+
+        if(req.getCategory3() != null) {
+            Category newCategory = categoryRepository.findByCategoryId(req.getCategory3());
+            if (newCategory != null) {
+                existingProduct.setCategory(newCategory);
+            }
+        }
+        return productRepository.save(existingProduct);
+//        findProductById(productId);
+//        product.setId(productId);
+//        return productRepository.save(product);
     }
 
     @Override

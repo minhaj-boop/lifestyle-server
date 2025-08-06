@@ -3,16 +3,16 @@ package com.server.lifestyle.request;
 import lombok.Data;
 
 import java.util.List;
+
 @Data
-public class CreateProductRequest {
+public class UpdateProductRequest {
     private String title;
     private String description;
-    private Long mrPrice;
-    private Long sellingPrice;
     private String color;
+    private double mrPrice;
+    private double sellingPrice;
     private List<String> images;
-    private String category;
-    private String category2;
-    private String category3;
     private List<String> sizes;
+    private String category3; // Optional: for changing category
+    private String stock;
 }

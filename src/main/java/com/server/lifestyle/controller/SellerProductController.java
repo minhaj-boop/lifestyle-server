@@ -5,6 +5,7 @@ import com.server.lifestyle.exceptions.SellerException;
 import com.server.lifestyle.model.Product;
 import com.server.lifestyle.model.Seller;
 import com.server.lifestyle.request.CreateProductRequest;
+import com.server.lifestyle.request.UpdateProductRequest;
 import com.server.lifestyle.service.ProductService;
 import com.server.lifestyle.service.SellerService;
 import jdk.jshell.spi.ExecutionControl;
@@ -51,9 +52,13 @@ public class SellerProductController {
     }
 
     @PutMapping("/update/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product product) throws ProductException {
+    public ResponseEntity<Product> updateProduct(
+            @RequestHeader("Authorization") String jwt,
+            @PathVariable Long productId,
+            @RequestBody UpdateProductRequest req) throws Exception {
 
-        Product updateProduct = productService.updateProduct(productId, product);
+        Seller seller = sellerService.getSellerProfile(jwt);
+        Product updateProduct = productService.updateProduct(productId, req, seller);
         return new ResponseEntity<>(updateProduct, HttpStatus.OK);
 
     }

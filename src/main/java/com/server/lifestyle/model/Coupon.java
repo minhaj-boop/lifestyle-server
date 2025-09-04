@@ -28,7 +28,7 @@ public class Coupon {
 
     private Long minimumOrderValue;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     @ManyToMany(mappedBy = "usedCoupons")
     private Set<User> usedByUsers = new HashSet<>();

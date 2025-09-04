@@ -6,6 +6,7 @@ import com.server.lifestyle.model.User;
 import com.server.lifestyle.repository.CartRepository;
 import com.server.lifestyle.repository.CouponRepository;
 import com.server.lifestyle.repository.UserRepository;
+import com.server.lifestyle.request.CreateCouponRequest;
 import com.server.lifestyle.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,8 +78,26 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public Coupon createCoupon(Coupon coupon) {
+    public Coupon createCoupon(CreateCouponRequest req) {
+        Coupon coupon = new Coupon();
+
+        if(req.getCode() != null) {
+            coupon.setCode(req.getCode());
+        }
+
+        coupon.setDiscountPercentage(req.getDiscountPercentage());
+
+        if(req.getValidityStartDate() != null) {
+            coupon.setValidityStartDate(req.getValidityStartDate());
+        }
+
+        if(req.getValidityEndDate() != null) {
+            coupon.setValidityEndDate(req.getValidityEndDate());
+        }
+
+        if(req.getMinimumOrderValue() != null) {
+            coupon.setMinimumOrderValue(req.getMinimumOrderValue());
+        }
 
         return couponRepository.save(coupon);
     }
@@ -89,7 +108,6 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCoupon(Long id) throws Exception {
         findCouponById(id);
         couponRepository.deleteById(id);

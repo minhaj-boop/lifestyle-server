@@ -3,11 +3,13 @@ package com.server.lifestyle.controller;
 import com.server.lifestyle.model.Cart;
 import com.server.lifestyle.model.Coupon;
 import com.server.lifestyle.model.User;
+import com.server.lifestyle.request.CreateCouponRequest;
 import com.server.lifestyle.service.CartService;
 import com.server.lifestyle.service.CouponService;
 import com.server.lifestyle.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,18 +41,21 @@ public class AdminCouponController {
         return ResponseEntity.ok(cart);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/create")
-    public ResponseEntity<Coupon> createCoupon(@RequestBody Coupon coupon) throws Exception {
-        Coupon newCoupon = couponService.createCoupon(coupon);
-        return ResponseEntity.ok(newCoupon);
+    public ResponseEntity<Coupon> createCoupon(@RequestBody CreateCouponRequest req) throws Exception {
+//        Coupon newCoupon = couponService.createCoupon(req);
+        return ResponseEntity.ok(couponService.createCoupon(req));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<?> deleteCoupon(@PathVariable Long id) throws Exception {
         couponService.deleteCoupon(id);
         return ResponseEntity.ok("Coupon deleted successfully");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/get/all")
     public ResponseEntity<List<Coupon>> getAllCoupon() throws Exception {
         List<Coupon> coupons = couponService.findAllCoupon();

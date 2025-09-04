@@ -3,8 +3,6 @@ package com.server.lifestyle.service.impl;
 import com.server.lifestyle.model.Product;
 import com.server.lifestyle.model.User;
 import com.server.lifestyle.model.WishList;
-import com.server.lifestyle.repository.ProductRepository;
-import com.server.lifestyle.repository.UserRepository;
 import com.server.lifestyle.repository.WishListRepository;
 import com.server.lifestyle.service.WishListService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,15 @@ public class WishListServiceImpl implements WishListService {
         }
         return wishList;
     }
+
+//    @Override
+//    public WishList deleteWishListById(String Id , User user) {
+//        WishList wishList = wishListRepository.findByUser(user);
+//        if(wishList != null) {
+//           wishList
+//        }
+//
+//    }
 
     @Override
     public WishList addProductToWishList(User user, Product product) {

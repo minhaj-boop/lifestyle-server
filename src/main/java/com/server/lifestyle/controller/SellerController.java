@@ -2,17 +2,16 @@ package com.server.lifestyle.controller;
 
 import com.server.lifestyle.config.JwtProvider;
 import com.server.lifestyle.domain.AccountStatus;
+import com.server.lifestyle.domain.USER_ROLE;
 import com.server.lifestyle.exceptions.SellerException;
 import com.server.lifestyle.model.Seller;
 import com.server.lifestyle.model.SellerReport;
+import com.server.lifestyle.model.User;
 import com.server.lifestyle.model.VerificationCode;
 import com.server.lifestyle.repository.VerificationCodeRepository;
 import com.server.lifestyle.request.LoginRequest;
 import com.server.lifestyle.response.AuthResponse;
-import com.server.lifestyle.service.AuthService;
-import com.server.lifestyle.service.EmailService;
-import com.server.lifestyle.service.SellerReportService;
-import com.server.lifestyle.service.SellerService;
+import com.server.lifestyle.service.*;
 import com.server.lifestyle.utils.OtpUtils;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +32,7 @@ public class SellerController {
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
     private final SellerReportService sellerReportService;
+    private final UserService userService;
 
 
     @PostMapping("/login")
@@ -101,11 +101,17 @@ public class SellerController {
         return new ResponseEntity<>(sellerReport, HttpStatus.OK);
     }
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<Seller>> getAllSellers(@RequestParam(required = false)AccountStatus status) throws Exception {
-        List<Seller> sellers = sellerService.getAllSellers(status);
-        return new ResponseEntity<>(sellers, HttpStatus.OK);
-    }
+//    @GetMapping("/get/all")
+//    public ResponseEntity<List<Seller>> getAllSellers(@RequestHeader("Authorization") String jwt, @RequestParam(required = false)AccountStatus status) throws Exception {
+//
+//        User user = userService.findUserByJwtToken(jwt);
+//        if(user.getRole().equals(USER_ROLE.ROLE_ADMIN)) {
+//            List<Seller> sellers = sellerService.getAllSellers(status);
+//            return new ResponseEntity<>(sellers, HttpStatus.OK);
+//        }else {
+//            throw new Exception("Unauthorized access: only admin can view all sellers");
+//        }
+//    }
 
     @PatchMapping("/update")
     public ResponseEntity<Seller> updateSeller(@RequestHeader("Authorization") String jwt, @RequestBody Seller seller)  throws Exception {
